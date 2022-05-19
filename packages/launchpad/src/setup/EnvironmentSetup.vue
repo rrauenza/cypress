@@ -106,7 +106,7 @@ const frameworks = computed(() => {
    */
   return flatten(
     Object.values(
-      groupBy(props.gql.frameworks ?? [], 'codeGenFramework'),
+      groupBy(props.gql.frameworks.map((x) => ({ ...x })) ?? [], 'codeGenFramework'),
     )
     .map((x) => groupBy(x, 'category'))
     .map((x) => [...sortBy(x.library, 'name'), ...sortBy(x.template, 'name')]),
