@@ -43,7 +43,7 @@ import {
 } from '../generated/graphql'
 
 import { useI18n } from '@cy/i18n'
-import { sortBy } from 'lodash'
+import { sortBy, groupBy, flatten } from 'lodash'
 import { useMutation } from '@urql/vue'
 
 gql`
@@ -74,6 +74,7 @@ fragment EnvironmentSetup on Wizard {
     isDetected
     type
     category
+    codeGenFramework
   }
   allBundlers {
     id
@@ -93,18 +94,23 @@ const { t } = useI18n()
 
 const bundlers = computed(() => {
   const all = props.gql.framework?.supportedBundlers || []
-  const _bundlers = all.map((b) => {
-    return {
-      disabled: all.length <= 1,
-      ...b,
-    }
-  })
 
-  return _bundlers
+  return sortBy(all.map((b) => ({ disabled: all.length <= 1, ...b })), 'name')
 })
 
 const frameworks = computed(() => {
-  return sortBy((props.gql.frameworks ?? []).map((f) => ({ ...f })), 'category')
+  /**
+   * Groups by codeGenFramework (React, Vue)
+   *   Groups by "category", either library (plain React) or framework (Next, etc)
+   *     Alphabetically within this group.
+   */
+  return flatten(
+    Object.values(
+      groupBy(props.gql.frameworks ?? [], 'codeGenFramework'),
+    )
+    .map((x) => groupBy(x, 'category'))
+    .map((x) => [...sortBy(x.library, 'name'), ...sortBy(x.template, 'name')]),
+  )
 })
 
 gql`

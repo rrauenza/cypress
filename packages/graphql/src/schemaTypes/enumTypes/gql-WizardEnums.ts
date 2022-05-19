@@ -8,6 +8,18 @@ export const SupportedBundlerEnum = enumType({
   members: WIZARD_BUNDLERS.map((t) => t.type),
 })
 
+export const FrameworkCategoryEnum = enumType({
+  name: 'FrameworkCategoryEnum',
+  description: 'Either library (like React.js, no overarching guidelines) or framework (like Next.js)',
+  members: WIZARD_FRAMEWORKS.map((t) => t.category),
+})
+
+export const CodeGenFrameworkEnum = enumType({
+  name: 'CodeGenFrameworkEnum',
+  description: 'Main library behind a framework, eg Vue or React',
+  members: WIZARD_FRAMEWORKS.map((t) => t.codeGenFramework),
+})
+
 export const WizardConfigFileStatusEnum = enumType({
   name: 'WizardConfigFileStatusEnum',
   members: ['changes', 'valid', 'skipped', 'error'],

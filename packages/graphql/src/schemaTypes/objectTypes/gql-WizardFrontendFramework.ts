@@ -1,5 +1,5 @@
 import { WizardBundler } from './gql-WizardBundler'
-import { FrontendFrameworkEnum, SupportStatusEnum } from '../enumTypes/gql-WizardEnums'
+import { FrontendFrameworkEnum, SupportStatusEnum, CodeGenFrameworkEnum, FrameworkCategoryEnum } from '../enumTypes/gql-WizardEnums'
 import { objectType } from 'nexus'
 
 export const WizardFrontendFramework = objectType({
@@ -13,7 +13,7 @@ export const WizardFrontendFramework = objectType({
     }),
 
     t.nonNull.field('category', {
-      type: 'String',
+      type: FrameworkCategoryEnum,
       description: 'The category (framework, like react-scripts, or library, like react',
     }),
 
@@ -34,6 +34,11 @@ export const WizardFrontendFramework = objectType({
     t.nonNull.field('supportStatus', {
       description: 'Current support status of the framework',
       type: SupportStatusEnum,
+    })
+
+    t.nonNull.field('codeGenFramework', {
+      description: 'The base library behind the framework, for example React or Vue',
+      type: CodeGenFrameworkEnum,
     })
 
     t.nonNull.list.nonNull.field('supportedBundlers', {

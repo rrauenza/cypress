@@ -357,6 +357,12 @@ type CodeFrame {
   line: Int
 }
 
+"""Main library behind a framework, eg Vue or React"""
+enum CodeGenFrameworkEnum {
+  react
+  vue
+}
+
 enum CodeGenType {
   component
   e2e
@@ -708,6 +714,14 @@ type FileParts implements Node {
 
   """Relative path to file (e.g. src/component/MySpec.test.tsx)"""
   relative: String!
+}
+
+"""
+Either library (like React.js, no overarching guidelines) or framework (like Next.js)
+"""
+enum FrameworkCategoryEnum {
+  library
+  template
 }
 
 enum FrontendFrameworkEnum {
@@ -1429,7 +1443,10 @@ enum WizardConfigFileStatusEnum {
 """A frontend framework that we can setup within the app"""
 type WizardFrontendFramework implements Node {
   """The category (framework, like react-scripts, or library, like react"""
-  category: String!
+  category: FrameworkCategoryEnum!
+
+  """The base library behind the framework, for example React or Vue"""
+  codeGenFramework: CodeGenFrameworkEnum!
 
   """Relay style Node ID field for the WizardFrontendFramework field"""
   id: ID!
