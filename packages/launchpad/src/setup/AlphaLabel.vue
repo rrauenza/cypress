@@ -3,8 +3,8 @@
     <!-- for screen readers -->
     <span class="sr-only">
       Support is in
+      {{ t('versions.alpha') }}
     </span>
-    {{ t('versions.alpha') }}
   </span>
 </template>
 
